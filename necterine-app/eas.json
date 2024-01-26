@@ -1,0 +1,28 @@
+{
+    "cli": {
+      "appVersionSource": "remote"
+    },
+    "build": {
+      "development": {
+        "autoIncrement": true,
+        "developmentClient": true,
+        "env": {
+            "APP_VARIANT": "development"
+        }
+      },
+      "production": {
+        "autoIncrement": true,
+        "node": "18.17.0",
+        "yarn": "1.22.18",
+        "env": {
+          "APP_VARIANT": "production"
+        }
+      },
+      "preview": {
+        "autoIncrement": true,
+        "env": {
+          "APP_VARIANT": "production"
+        }
+      }
+    }
+  }

@@ -1,0 +1,169 @@
+{
+  "name": "necterine-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "author": "mauricio",
+  "license": "MIT",
+  "scripts": {
+    "dev": "expo start -c",
+    "build:ios": "expo start --ios",
+    "clean": "rm -rf node_modules",
+    "android:dev": "expo run:android",
+    "ios:dev": "expo run:ios",
+    "ios:release": "expo run:ios --configuration Release",
+    "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
+    "typecheck": "tsc --noEmit",
+    "gen:gql": "cd graphql-types && graphql-codegen -w",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "@apollo/client": "3.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.18.6",
+    "@babel/plugin-proposal-optional-chaining": "7.21.0",
+    "@babel/plugin-transform-arrow-functions": "7.0.0",
+    "@babel/plugin-transform-optional-chaining": "7.23.4",
+    "@babel/plugin-transform-shorthand-properties": "7.0.0",
+    "@babel/plugin-transform-template-literals": "7.0.0",
+    "@babel/preset-env": "7.1.6",
+    "@babel/runtime": "7.23.1",
+    "@clerk/clerk-expo": "0.19.7",
+    "@expo/metro-config": "0.10.7",
+    "@expo/vector-icons": "13.0.0",
+    "@graphql-codegen/cli": "4.0.1",
+    "@graphql-codegen/typescript": "4.0.0",
+    "@graphql-codegen/typescript-operations": "4.0.1",
+    "@graphql-codegen/typescript-react-apollo": "3.3.7",
+    "@graphql-typed-document-node/core": "3.2.0",
+    "@ianvs/prettier-plugin-sort-imports": "4.1.0",
+    "@parcel/watcher": "2.3.0",
+    "@ptomasroos/react-native-multi-slider": "2.2.2",
+    "@react-navigation/material-top-tabs": "^6.6.5",
+    "@react-navigation/native": "^6.1.9",
+    "@shopify/flash-list": "1.4.3",
+    "@types/react": "~18.2.14",
+    "autoprefixer": "10.4.15",
+    "axios": "1.5.1",
+    "clsx": "2.0.0",
+    "expo": "49.0.21",
+    "expo-application": "5.3.1",
+    "expo-auth-session": "~5.0.2",
+    "expo-av": "~13.4.1",
+    "expo-clipboard": "~4.3.1",
+    "expo-constants": "~14.4.2",
+    "expo-crypto": "12.4.1",
+    "expo-dev-client": "2.4.12",
+    "expo-device": "~5.4.0",
+    "expo-file-system": "15.4.5",
+    "expo-font": "11.4.0",
+    "expo-image-picker": "14.3.2",
+    "expo-linear-gradient": "~12.3.0",
+    "expo-linking": "5.0.2",
+    "expo-location": "16.1.0",
+    "expo-mail-composer": "~12.3.0",
+    "expo-notifications": "~0.20.1",
+    "expo-router": "2.0.12",
+    "expo-secure-store": "12.3.1",
+    "expo-splash-screen": "0.20.5",
+    "expo-status-bar": "1.6.0",
+    "expo-updates": "0.18.17",
+    "expo-video-thumbnails": "7.4.0",
+    "expo-web-browser": "12.3.2",
+    "graphql": "16.8.0",
+    "graphql-tag": "2.12.6",
+    "metro": "0.76.7",
+    "nativewind": "2.0.11",
+    "postcss": "8.4.29",
+    "prettier": "3.0.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "7.48.2",
+    "react-native": "0.72.6",
+    "react-native-actions-sheet": "0.9.0-alpha.24",
+    "react-native-easy-grid": "0.2.2",
+    "react-native-email-link": "^1.14.8",
+    "react-native-floating-label-input": "1.4.3",
+    "react-native-gesture-handler": "2.12.1",
+    "react-native-loading-spinner-overlay": "3.0.1",
+    "react-native-pager-view": "6.2.0",
+    "react-native-progress": "5.0.1",
+    "react-native-reanimated": "3.3.0",
+    "react-native-safe-area-context": "4.6.3",
+    "react-native-screens": "~3.22.0",
+    "react-native-svg": "13.9.0",
+    "react-native-svg-transformer": "1.1.0",
+    "react-native-tab-view": "^3.5.2",
+    "react-native-toast-notifications": "3.4.0",
+    "react-native-webview": "13.2.2",
+    "sentry-expo": "7.1.1",
+    "tailwind-merge": "1.14.0",
+    "tailwindcss": "3.3.2",
+    "typescript": "5.1.3",
+    "uuid": "3.4.0",
+    "zod": "3.22.4"
+  },
+  "devDependencies": {
+    "@babel/core": "7.23.3",
+    "@expo/config-plugins": "7.2.5",
+    "@hookform/resolvers": "3.3.2",
+    "eslint": "8.48.0",
+    "prettier": "3.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "es2022": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": true,
+      "allowReturnOutsideFunction": true
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "import"
+    ],
+    "rules": {
+      "turbo/no-undeclared-env-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ],
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        {
+          "prefer": "type-imports",
+          "fixStyle": "separate-type-imports"
+        }
+      ],
+      "@typescript-eslint/no-misused-promises": [
+        2,
+        {
+          "checksVoidReturn": {
+            "attributes": false
+          }
+        }
+      ],
+      "import/consistent-type-specifier-style": [
+        "error",
+        "prefer-top-level"
+      ]
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended-type-checked",
+      "plugin:@typescript-eslint/stylistic-type-checked",
+      "prettier"
+    ]
+  },
+  "packageManager": "yarn@1.22.18",
+  "volta": {
+    "node": "18.17.0",
+    "yarn": "1.22.18"
+  }
+}

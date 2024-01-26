@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - npm install -g yarn
+      - yarn install
+  build:
+    commands:
+      - cd apps/api
+      - yarn run prisma:generate
+      - yarn run build
+
+artifacts:
+  files:
+    - "**/*"
+  exclude-paths:
+    - node_modules
+
+cache:
+  paths:
+    - node_modules/**/*

@@ -1,0 +1,29 @@
+{
+  "name": "necterine",
+  "private": true,
+  "version": "1.0.0",
+  "repository": "git@bitbucket.org:WeAreNolte/necterine-monorepo.git",
+  "author": "Mauricio",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "prod": "turbo run prod",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@necterine/tsconfig": "*",
+    "eslint": "8.48.0",
+    "prettier": "3.0.3",
+    "turbo": "latest"
+  },
+  "packageManager": "yarn@1.22.18",
+  "engines": {
+    "node": ">=18"
+  }
+}

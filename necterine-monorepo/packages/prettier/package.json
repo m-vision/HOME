@@ -1,0 +1,22 @@
+{
+  "name": "@necterine/prettier-config",
+  "private": true,
+  "version": "0.0.0",
+  "main": "index.mjs",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "4.1.0",
+    "prettier": "3.0.3"
+  },
+  "devDependencies": {
+    "@necterine/tsconfig": "*",
+    "typescript": "5.2.2"
+  },
+  "prettier": "@necterine/prettier-config",
+  "author": "Mauricio",
+  "license": "MIT"
+}

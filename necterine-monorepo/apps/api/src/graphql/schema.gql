@@ -1,0 +1,172 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+enum CONNECTION_TYPE {
+  CASUAL_DATING
+  FRIENDSHIP
+  LONG_TERM_RELATIONSHIP
+  NOT_SURE
+  SHORT_TERM_RELATIONSHIP
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum GENDER {
+  AGENDER
+  ANDROGYNE
+  ANDROGYNOUS
+  BISGENDER
+  CISGENDER
+  DEMIROMANTIC
+  FEMALE
+  GENDERFLUID
+  GENDERQUEER
+  GENDER_NONCONFORMING
+  GENDER_QUESTIONING
+  INTERSEX
+  MALE
+  NON_BINARY
+  PANGENDER
+  QUEER
+  TRANSFERMININE
+  TRANSMASCULINE
+  TRANS_MAN
+  TRANS_WOMAN
+  TWO_SPIRIT
+}
+
+type Location {
+  city: String
+  country: String
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+  state: String
+  user: User
+  userId: String!
+}
+
+type MatchPreferences {
+  displayGenderPreferences: Boolean
+  genderPreferences: [GENDER!]
+  id: ID!
+  maxAge: Float
+  maxDistance: Float
+  minAge: Float
+  minDistance: Float
+  preferredConnectionType: CONNECTION_TYPE
+  updatedAt: DateTime!
+  user: User!
+  userId: String!
+}
+
+type Mutation {
+  deleteUser(reason: String!): Boolean!
+  setOnboardingCompleted: User!
+  updateAgeRange(maxAge: Float!, minAge: Float!): MatchPreferences!
+  updateBio(bio: String!): Profile!
+  updateDateOfBirth(dateOfBirth: DateTime!): User!
+  updateGender(gender: String!): User!
+  updateGenderPreferences(displayGenderPreferences: Boolean!, genderPreferences: [GENDER!]!): MatchPreferences!
+  updateLocation(latitude: Float!, longitude: Float!): Location!
+  updatePhotos(photos: [String!]!): Profile!
+  updatePreferredConnectionType(preferredConnectionType: String!): MatchPreferences!
+  updatePronouns(displayPronouns: Boolean!, pronouns: [PRONOUN!]!): Profile!
+  updateQuestionnaireAnswer(questionnaireAnswerId: String!): Profile!
+  updateSexualOrientation(displaySexualOrientation: Boolean!, sexualOrientation: String!): Profile!
+  updateUserName(name: String!): User!
+  validateUserAndUpdateDeviceToken(deviceToken: String!): User!
+}
+
+enum PRONOUN {
+  HE_HIM
+  SHE_HER
+  THEY_THEM
+}
+
+type Profile {
+  bio: String
+  displayPronouns: Boolean
+  displaySexualOrientation: Boolean
+  id: ID!
+  photos: [String!]!
+  pronouns: [PRONOUN!]
+  questionnaireAnswers: [QuestionnaireAnswer!]
+  sexualOrientation: SEXUAL_ORIENTATION
+  updatedAt: DateTime!
+  user: User!
+  userId: String!
+}
+
+type Query {
+  fetchPotentialMatches: [User!]!
+  getQuestionnaire(questionnaireId: String!): Questionnaire!
+  getQuestionnaireQuestion(questionnaireQuestionId: String!): QuestionnaireQuestion!
+  me: User!
+}
+
+type Questionnaire {
+  id: ID!
+  name: String!
+  questionnaireQuestions: [QuestionnaireQuestion!]
+}
+
+type QuestionnaireAnswer {
+  id: ID!
+  profile: [Profile!]
+  questionId: String
+  questionnaireQuestion: QuestionnaireQuestion
+  subtitle: String
+  title: String!
+}
+
+type QuestionnaireQuestion {
+  affirmativeForm: String!
+  id: ID!
+  questionnaireAnswers: [QuestionnaireAnswer!]
+  questionnaireId: String
+  subtitle: String
+  title: String!
+}
+
+enum SEXUAL_ORIENTATION {
+  ALLOSEXUAL
+  ANDROGYNOSEXUAL
+  ASEXUAL
+  AUTOSEXUAL
+  BICURIOUS
+  BISEXUAL
+  DEMISEXUAL
+  GAY
+  GRAY_A
+  GYNOSEXUAL
+  HETEROFLEXIBLE
+  HOMOFLEXIBLE
+  LESBIAN
+  OBJECTOPHILIA
+  OMNISEXUAL
+  PANSEXUAL
+  POLISEXUAL
+  QUEER
+  QUESTIONING
+  SKOLIOSEXUAL
+  STRAIGHT
+}
+
+type User {
+  createdAt: DateTime!
+  dateOfBirth: DateTime
+  deviceToken: String
+  email: String!
+  gender: GENDER
+  id: ID!
+  matchPreferences: MatchPreferences!
+  name: String
+  onboardingCompleted: Boolean!
+  profile: Profile!
+  profilePicture: String
+}

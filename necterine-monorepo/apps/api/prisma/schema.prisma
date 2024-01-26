@@ -1,0 +1,284 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GENDER {
+  MALE
+  FEMALE
+  NON_BINARY
+  AGENDER
+  ANDROGYNE
+  ANDROGYNOUS
+  BISGENDER
+  CISGENDER
+  DEMIROMANTIC
+  GENDERFLUID
+  GENDER_NONCONFORMING
+  GENDERQUEER
+  GENDER_QUESTIONING
+  INTERSEX
+  PANGENDER
+  TRANS_MAN
+  TRANS_WOMAN
+  TRANSFERMININE
+  TRANSMASCULINE
+  TWO_SPIRIT
+  QUEER
+}
+
+enum PRONOUN {
+  HE_HIM
+  SHE_HER
+  THEY_THEM
+}
+
+enum CONNECTION_TYPE {
+  LONG_TERM_RELATIONSHIP
+  CASUAL_DATING
+  FRIENDSHIP
+  SHORT_TERM_RELATIONSHIP
+  NOT_SURE
+}
+
+enum SEXUAL_ORIENTATION {
+  STRAIGHT
+  GAY
+  LESBIAN
+  BISEXUAL
+  ALLOSEXUAL
+  ANDROGYNOSEXUAL
+  ASEXUAL
+  AUTOSEXUAL
+  BICURIOUS
+  DEMISEXUAL
+  GRAY_A
+  GYNOSEXUAL
+  HETEROFLEXIBLE
+  HOMOFLEXIBLE
+  OBJECTOPHILIA
+  OMNISEXUAL
+  PANSEXUAL
+  POLISEXUAL
+  QUEER
+  SKOLIOSEXUAL
+  QUESTIONING
+}
+
+enum MATCH_STATUS {
+  ACCEPTED
+  DECLINED
+  CANCELED
+}
+
+// enum NOTIFICATION_TYPE {
+//   NEW_MATCH
+//   NEW_MESSAGE
+//   NEW_LIKE
+//   NEW_REVIEW
+//   NEW_REPORT
+// }
+
+// enum REPORT_REASON {
+//   INAPPROPRIATE_CONTENT
+//   INAPPROPRIATE_BEHAVIOR
+//   SPAM
+//   OTHER
+// }
+
+model User {
+  id                          String           @id @default(uuid())
+  email                       String           @unique
+  name                        String?
+  dateOfBirth                 DateTime?
+  onboardingCompleted         Boolean          @default(false)
+  createdAt                   DateTime         @default(now())
+  deviceToken                 String?
+  gender                      GENDER?
+  profile                     Profile?         @relation("UserProfile")
+  location                    Location?        @relation("UserLocation")
+  matchPreferences            MatchPreference? @relation("UserMatchPreference")
+  settings                    Setting?         @relation("UserSettings")
+  // notifications               Notification[]   @relation("UserNotifications")
+  matchesAsUserOne            Match[]          @relation("UserMatchAsUserOne")
+  matchesAsUserTwo            Match[]          @relation("UserMatchAsUserTwo")
+  potentialMatchesAsUser      PotentialMatch[] @relation("UserPotentialMatchesAsUser")
+  potentialMatchesAsPotential PotentialMatch[] @relation("UserPotentialMatchesAsPotentialMatch")
+  likedByUsers                Like[]           @relation("LikesReceived")
+  likingUsers                 Like[]           @relation("LikesGiven")
+  // reportedByUsers             Report[]         @relation("UserReportedReports")
+  // reportingUsers              Report[]         @relation("UserReporterReports")
+  // reviewedByUsers             Review[]         @relation("UserReviewedReviews")
+  // reviewingUsers              Review[]         @relation("UserReviewerReviews")
+  // messages                    Message[]        @relation("UserMessages")
+}
+
+model Profile {
+  id                       String                @id @default(uuid())
+  user                     User?                 @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade)
+  userId                   String                @unique
+  questionnaireAnswers     QuestionnaireAnswer[] @relation("ProfileAnswers")
+  photos                   String[]
+  bio                      String?
+  pronouns                 PRONOUN[]
+  displayPronouns          Boolean?              @default(false)
+  sexualOrientation        SEXUAL_ORIENTATION?
+  displaySexualOrientation Boolean?              @default(false)
+  updatedAt                DateTime              @updatedAt
+}
+
+model QuestionnaireAnswer {
+  id                    String                 @id @default(uuid())
+  profile               Profile[]              @relation("ProfileAnswers")
+  questionnaireQuestion QuestionnaireQuestion? @relation(fields: [questionId], references: [id])
+  questionId            String?
+  subtitle              String?
+  title                 String
+}
+
+model QuestionnaireQuestion {
+  id                   String                @id @default(uuid())
+  questionnaire        Questionnaire?        @relation(fields: [questionnaireId], references: [id])
+  questionnaireId      String?
+  questionnaireAnswers QuestionnaireAnswer[]
+  subtitle             String?
+  title                String
+  affirmativeForm      String                @default("")
+}
+
+model Questionnaire {
+  id                     String                  @id @default(uuid())
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  name                   String
+  questionnaireQuestions QuestionnaireQuestion[]
+}
+
+model MatchPreference {
+  id                       String           @id @default(uuid())
+  user                     User             @relation("UserMatchPreference", fields: [userId], references: [id], onDelete: Cascade)
+  userId                   String           @unique
+  minAge                   Int?
+  maxAge                   Int?
+  minDistance              Int?
+  maxDistance              Int?
+  genderPreferences        GENDER[]
+  displayGenderPreferences Boolean?         @default(false)
+  preferredConnectionType  CONNECTION_TYPE?
+  updatedAt                DateTime         @updatedAt
+}
+
+model Location {
+  id        String  @id @default(uuid())
+  latitude  Float
+  longitude Float
+  country   String?
+  state     String?
+  city      String?
+  userId    String  @unique
+  user      User?   @relation("UserLocation", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PotentialMatch {
+  id                   String   @id @default(uuid())
+  user                 User?    @relation("UserPotentialMatchesAsUser", fields: [userId], references: [id], onDelete: Cascade)
+  userId               String
+  potentialMatchUser   User?    @relation("UserPotentialMatchesAsPotentialMatch", fields: [potentialMatchUserId], references: [id], onDelete: Cascade)
+  potentialMatchUserId String
+  score                Float?
+  viewed               Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([userId, potentialMatchUserId], name: "potential_match_index")
+}
+
+model Like {
+  id           String   @id @default(uuid())
+  likingUser   User?    @relation("LikesGiven", fields: [likingUserId], references: [id], onDelete: Cascade)
+  likingUserId String
+  likedUser    User?    @relation("LikesReceived", fields: [likedUserId], references: [id], onDelete: Cascade)
+  likedUserId  String
+  createdAt    DateTime @default(now())
+
+  @@index([likingUserId, likedUserId], name: "idx_likingUser_likedUser")
+}
+
+model Match {
+  id             String       @id @default(uuid())
+  userOne        User?        @relation("UserMatchAsUserOne", fields: [userOneId], references: [id], onDelete: Cascade)
+  userOneId      String
+  userTwo        User?        @relation("UserMatchAsUserTwo", fields: [userTwoId], references: [id], onDelete: Cascade)
+  userTwoId      String
+  matchedAt      DateTime     @default(now())
+  status         MATCH_STATUS
+  // messages       Message[]
+  lastActivityAt DateTime?
+
+  @@index([userOneId], name: "user_one_index")
+  @@index([userTwoId], name: "user_two_index")
+}
+
+// model Notification {
+//   id                String            @id @default(uuid())
+//   user              User              @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+//   userId            String
+//   NOTIFICATION_TYPE NOTIFICATION_TYPE
+//   referenceId       String
+// }
+
+model Setting {
+  id                 String   @id @default(uuid())
+  user               User     @relation("UserSettings", fields: [userId], references: [id], onDelete: Cascade)
+  userId             String   @unique
+  inAppNotifications Boolean
+  updatedAt          DateTime @updatedAt
+}
+
+// model Report {
+//   id             String        @id @default(uuid())
+//   reporter       User          @relation("UserReporterReports", fields: [reporterUserId], references: [id], onDelete: Cascade)
+//   reporterUserId String
+//   reported       User          @relation("UserReportedReports", fields: [reportedUserId], references: [id], onDelete: Cascade)
+//   reportedUserId String
+//   reportReason   REPORT_REASON
+//   reportDetails  String
+//   createdAt      DateTime      @default(now())
+// }
+
+// model Review {
+//   id             String   @id @default(uuid())
+//   reviewer       User     @relation("UserReviewerReviews", fields: [reviewerUserId], references: [id], onDelete: Cascade)
+//   reviewerUserId String
+//   reviewed       User     @relation("UserReviewedReviews", fields: [reviewedUserId], references: [id], onDelete: Cascade)
+//   reviewedUserId String
+//   reviewText     String
+//   rating         Int
+//   createdAt      DateTime @default(now())
+// }
+
+// model Message {
+//   id           String   @id @default(uuid())
+//   match        Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+//   matchId      String
+//   content      String
+//   sentByUser   User     @relation("UserMessages", fields: [sentByUserId], references: [id], onDelete: Cascade)
+//   sentByUserId String
+//   createdAt    DateTime @default(now())
+// }
+
+model UserDeletionLog {
+  id            String    @id @default(uuid())
+  userId        String?
+  reason        String?
+  userCreatedAt DateTime?
+  deletedAt     DateTime  @default(now())
+}

@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: necterine-postgres-password
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: necterine-warehouse
+volumes:
+  db-data:

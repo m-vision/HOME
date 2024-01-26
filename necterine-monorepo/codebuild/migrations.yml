@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - npm install -g yarn
+      - yarn install
+  build:
+    on-failure: ABORT
+    commands:
+      - cd apps/api
+      - npx prisma migrate deploy
+      # Only needed when you want to reset the database
+      # do not use in production
+      # - npx prisma migrate reset --force
+      - yarn run db:seed
+
+artifacts:
+  files:
+    - "**/*"
+  exclude-paths:
+    - node_modules
+
+cache:
+  paths:
+    - node_modules/**/*

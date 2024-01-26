@@ -1,0 +1,11 @@
+query getQuestionnaire($questionnaireId: String!) {
+   getQuestionnaire(questionnaireId: $questionnaireId){
+    id
+    name
+    questionnaireQuestions{
+      id
+      title
+      subtitle
+    }
+  }
+}

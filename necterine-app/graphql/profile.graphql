@@ -1,0 +1,45 @@
+mutation updateBio($bio: String!) {
+  updateBio(bio: $bio) {
+    id
+    bio
+  }
+}
+
+mutation updateSexualOrientation(
+  $sexualOrientation: String!
+  $displaySexualOrientation: Boolean!
+) {
+  updateSexualOrientation(
+    sexualOrientation: $sexualOrientation
+    displaySexualOrientation: $displaySexualOrientation
+  ) {
+    id
+    sexualOrientation
+    displaySexualOrientation
+  }
+}
+
+mutation updatePronouns($pronouns: [PRONOUN!]!, $displayPronouns: Boolean!) {
+  updatePronouns(pronouns: $pronouns, displayPronouns: $displayPronouns) {
+    id
+    pronouns
+    displayPronouns
+  }
+}
+
+mutation updatePhotos($photos: [String!]!) {
+  updatePhotos(photos: $photos) {
+    id
+    photos
+  }
+}
+
+mutation updateQuestionnaireAnswer($questionnaireAnswerId: String!) {
+  updateQuestionnaireAnswer(questionnaireAnswerId: $questionnaireAnswerId) {
+    id
+    questionnaireAnswers {
+      id
+      title
+    }
+  }
+}

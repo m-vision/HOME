@@ -1,0 +1,17 @@
+mutation updateGenderPreferences($genderPreferences: [GENDER!]!, $displayGenderPreferences: Boolean!) {
+  updateGenderPreferences(genderPreferences: $genderPreferences, displayGenderPreferences: $displayGenderPreferences) {
+    id
+  }
+}
+
+mutation updatePreferredConnectionType($preferredConnectionType: String!) {
+  updatePreferredConnectionType(preferredConnectionType: $preferredConnectionType) {
+    id
+  }
+}
+
+mutation updateAgeRange($minAge: Float!, $maxAge: Float!) {
+  updateAgeRange(minAge: $minAge, maxAge: $maxAge) {
+    id
+  }
+}

@@ -1,0 +1,83 @@
+query CurrentUser {
+  me {
+    id
+    name
+    dateOfBirth
+    gender
+    deviceToken
+    email
+    onboardingCompleted
+    profilePicture
+    createdAt
+
+    matchPreferences {
+      genderPreferences
+      displayGenderPreferences
+      preferredConnectionType
+      minAge
+      maxAge
+    }
+
+    profile {
+      bio
+      photos
+      pronouns
+      sexualOrientation
+      displaySexualOrientation
+      displayPronouns
+
+      questionnaireAnswers {
+        id
+        title
+        subtitle
+        questionId
+        questionnaireQuestion {
+          id
+          affirmativeForm
+        }
+      }
+    }
+  }
+}
+
+mutation validateUserAndUpdateDeviceToken($deviceToken: String!) {
+  validateUserAndUpdateDeviceToken(deviceToken: $deviceToken) {
+    id
+    email
+    onboardingCompleted
+  }
+}
+
+mutation updateUserName($name: String!) {
+  updateUserName(name: $name) {
+    id
+    email
+    name
+  }
+}
+
+mutation updateDateOfBirth($dateOfBirth: DateTime!) {
+  updateDateOfBirth(dateOfBirth: $dateOfBirth) {
+    id
+    email
+    dateOfBirth
+  }
+}
+
+mutation updateGender($gender: String!) {
+  updateGender(gender: $gender) {
+    id
+    gender
+  }
+}
+
+mutation setOnboardingCompleted {
+  setOnboardingCompleted {
+    id
+    onboardingCompleted
+  }
+}
+
+mutation deleteUser($reason: String!) {
+  deleteUser(reason: $reason) 
+}
